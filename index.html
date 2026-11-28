@@ -1,36 +1,64 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Mr India - AR Experience</title>
+  <title>Mr. India AR Experience</title>
 
-  <!-- A-Frame -->
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-
-  <!-- MindAR -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <style>
     body {
       margin: 0;
-      background: #090909;
+      background: #080808;
       font-family: Arial, sans-serif;
     }
 
     #message {
       position: fixed;
-      top: 25px;
-      left: 0;
+      top: 20px;
       width: 100%;
       text-align: center;
       color: white;
       z-index: 10;
-      font-size: 18px;
       letter-spacing: 2px;
       pointer-events: none;
+    }
+
+    #info {
+      display: none;
+      position: fixed;
+      bottom: 25px;
+      left: 5%;
+      width: 90%;
+      box-sizing: border-box;
+      padding: 22px;
+      background: rgba(10, 10, 10, 0.95);
+      border: 1px solid #e8bd43;
+      border-radius: 12px;
+      color: white;
+      text-align: center;
+      z-index: 20;
+    }
+
+    #info h2 {
+      color: #f5c842;
+      letter-spacing: 3px;
+    }
+
+    #close {
+      background: #e8bd43;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 5px;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    .clickable {
+      cursor: pointer;
     }
   </style>
 </head>
@@ -39,57 +67,113 @@
 
   <div id="message">SCAN THE MR. INDIA POSTER</div>
 
+  <div id="info">
+    <h2 id="characterName">CHARACTER</h2>
+    <p id="characterDescription"></p>
+    <button id="close" onclick="closeInfo()">BACK TO POSTER</button>
+  </div>
+
   <a-scene
     mindar-image="imageTargetSrc: ./mrindia.mind;"
     color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights: true"
+    renderer="colorManagement: true"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false">
+
+    <a-assets>
+      <img id="poster" src="./images/poster.jpg">
+    </a-assets>
 
     <a-camera
       position="0 0 0"
       look-controls="enabled: false">
+      <a-cursor
+        rayOrigin="mouse"
+        fuse="false"
+        raycaster="objects: .clickable">
+      </a-cursor>
     </a-camera>
 
-    <!-- Poster tracking -->
     <a-entity mindar-image-target="targetIndex: 0">
 
-      <!-- Background panel -->
+      <!-- Digital poster -->
       <a-plane
-        color="#160810"
-        opacity="0.9"
+        src="#poster"
         width="1"
-        height="0.3"
-        position="0 0.35 0">
+        height="1.5"
+        position="0 0 0">
       </a-plane>
 
-      <!-- Detection message -->
-      <a-text
-        value="POSTER DETECTED!"
-        color="#ff4b91"
-        align="center"
-        width="2"
-        position="0 0.35 0.01">
-      </a-text>
+      <!-- Sridevi hotspot -->
+      <a-entity
+        class="clickable"
+        position="-0.28 0.38 0.03"
+        onclick="showInfo('SEEMA', 'Explore Sridevi, her iconic Hawa Hawai performance, fashion and character.')">
+
+        <a-ring
+          radius-inner="0.075"
+          radius-outer="0.09"
+          color="#FFD447"
+          material="shader: flat; opacity: 0.95"
+          animation="property: scale; from: 1 1 1; to: 1.2 1.2 1; dir: alternate; loop: true; dur: 1000">
+        </a-ring>
+      </a-entity>
+
+      <!-- Anil Kapoor hotspot -->
+      <a-entity
+        class="clickable"
+        position="0.25 0.05 0.03"
+        onclick="showInfo('MR. INDIA', 'Discover Arun, the invisible man, his watch and his story.')">
+
+        <a-ring
+          radius-inner="0.075"
+          radius-outer="0.09"
+          color="#FFD447"
+          material="shader: flat; opacity: 0.95"
+          animation="property: scale; from: 1 1 1; to: 1.2 1.2 1; dir: alternate; loop: true; dur: 1000">
+        </a-ring>
+      </a-entity>
+
+      <!-- Mogambo hotspot -->
+      <a-entity
+        class="clickable"
+        position="0 -0.48 0.03"
+        onclick="showInfo('MOGAMBO', 'Explore the iconic villain, his famous dialogue and his role in the film.')">
+
+        <a-ring
+          radius-inner="0.075"
+          radius-outer="0.09"
+          color="#FFD447"
+          material="shader: flat; opacity: 0.95"
+          animation="property: scale; from: 1 1 1; to: 1.2 1.2 1; dir: alternate; loop: true; dur: 1000">
+        </a-ring>
+      </a-entity>
 
     </a-entity>
-
   </a-scene>
 
   <script>
-    const target = document.querySelector(
-      '[mindar-image-target]'
-    );
-
+    const target = document.querySelector('[mindar-image-target]');
     const message = document.getElementById('message');
 
     target.addEventListener('targetFound', () => {
-      message.textContent = "WELCOME TO MR. INDIA";
+      message.textContent = 'CHOOSE A CHARACTER';
     });
 
     target.addEventListener('targetLost', () => {
-      message.textContent = "SCAN THE MR. INDIA POSTER";
+      message.textContent = 'SCAN THE MR. INDIA POSTER';
+      closeInfo();
     });
+
+    function showInfo(name, description) {
+      document.getElementById('characterName').textContent = name;
+      document.getElementById('characterDescription').textContent = description;
+      document.getElementById('info').style.display = 'block';
+    }
+
+    function closeInfo() {
+      document.getElementById('info').style.display = 'none';
+    }
   </script>
 
 </body>
