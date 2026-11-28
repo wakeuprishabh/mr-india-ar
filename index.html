@@ -24,7 +24,6 @@
       color: white;
       z-index: 10;
       letter-spacing: 2px;
-      pointer-events: none;
     }
 
     #info {
@@ -33,10 +32,10 @@
       bottom: 25px;
       left: 5%;
       width: 90%;
+      padding: 20px;
       box-sizing: border-box;
-      padding: 22px;
-      background: rgba(10, 10, 10, 0.95);
-      border: 1px solid #e8bd43;
+      background: rgba(10,10,10,.95);
+      border: 1px solid #FFD447;
       border-radius: 12px;
       color: white;
       text-align: center;
@@ -44,17 +43,15 @@
     }
 
     #info h2 {
-      color: #f5c842;
+      color: #FFD447;
       letter-spacing: 3px;
     }
 
     #close {
-      background: #e8bd43;
+      background: #FFD447;
       border: none;
       padding: 10px 25px;
       border-radius: 5px;
-      margin-top: 12px;
-      font-weight: bold;
     }
 
     .clickable {
@@ -68,7 +65,7 @@
   <div id="message">SCAN THE MR. INDIA POSTER</div>
 
   <div id="info">
-    <h2 id="characterName">CHARACTER</h2>
+    <h2 id="characterName"></h2>
     <p id="characterDescription"></p>
     <button id="close" onclick="closeInfo()">BACK TO POSTER</button>
   </div>
@@ -76,27 +73,19 @@
   <a-scene
     mindar-image="imageTargetSrc: ./mrindia.mind;"
     color-space="sRGB"
-    renderer="colorManagement: true"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false">
 
     <a-assets>
-      <img id="poster" src="./images/poster.jpg">
+      <img id="poster" src="./poster.jpg">
     </a-assets>
 
-    <a-camera
-      position="0 0 0"
+    <a-camera position="0 0 0"
       look-controls="enabled: false">
-      <a-cursor
-        rayOrigin="mouse"
-        fuse="false"
-        raycaster="objects: .clickable">
-      </a-cursor>
     </a-camera>
 
     <a-entity mindar-image-target="targetIndex: 0">
 
-      <!-- Digital poster -->
       <a-plane
         src="#poster"
         width="1"
@@ -104,49 +93,35 @@
         position="0 0 0">
       </a-plane>
 
-      <!-- Sridevi hotspot -->
+      <!-- Sridevi -->
       <a-entity
         class="clickable"
-        position="-0.28 0.38 0.03"
-        onclick="showInfo('SEEMA', 'Explore Sridevi, her iconic Hawa Hawai performance, fashion and character.')">
-
-        <a-ring
-          radius-inner="0.075"
-          radius-outer="0.09"
-          color="#FFD447"
-          material="shader: flat; opacity: 0.95"
-          animation="property: scale; from: 1 1 1; to: 1.2 1.2 1; dir: alternate; loop: true; dur: 1000">
-        </a-ring>
+        geometry="primitive: ring; radiusInner: 0.075; radiusOuter: 0.09"
+        material="color: #FFD447; shader: flat"
+        position="-0.28 0.38 0.04"
+        onclick="showInfo('SEEMA','Explore Sridevi, Hawa Hawai, fashion and her character.')">
+        <a-animation attribute="scale"
+          from="1 1 1" to="1.2 1.2 1"
+          direction="alternate" dur="1000"
+          repeat="indefinite"></a-animation>
       </a-entity>
 
-      <!-- Anil Kapoor hotspot -->
+      <!-- Anil Kapoor -->
       <a-entity
         class="clickable"
-        position="0.25 0.05 0.03"
-        onclick="showInfo('MR. INDIA', 'Discover Arun, the invisible man, his watch and his story.')">
-
-        <a-ring
-          radius-inner="0.075"
-          radius-outer="0.09"
-          color="#FFD447"
-          material="shader: flat; opacity: 0.95"
-          animation="property: scale; from: 1 1 1; to: 1.2 1.2 1; dir: alternate; loop: true; dur: 1000">
-        </a-ring>
+        geometry="primitive: ring; radiusInner: 0.075; radiusOuter: 0.09"
+        material="color: #FFD447; shader: flat"
+        position="0.25 0.05 0.04"
+        onclick="showInfo('MR. INDIA','Discover Arun, invisibility and his gadgets.')">
       </a-entity>
 
-      <!-- Mogambo hotspot -->
+      <!-- Mogambo -->
       <a-entity
         class="clickable"
-        position="0 -0.48 0.03"
-        onclick="showInfo('MOGAMBO', 'Explore the iconic villain, his famous dialogue and his role in the film.')">
-
-        <a-ring
-          radius-inner="0.075"
-          radius-outer="0.09"
-          color="#FFD447"
-          material="shader: flat; opacity: 0.95"
-          animation="property: scale; from: 1 1 1; to: 1.2 1.2 1; dir: alternate; loop: true; dur: 1000">
-        </a-ring>
+        geometry="primitive: ring; radiusInner: 0.075; radiusOuter: 0.09"
+        material="color: #FFD447; shader: flat"
+        position="0 -0.48 0.04"
+        onclick="showInfo('MOGAMBO','Explore the iconic villain and his famous dialogue.')">
       </a-entity>
 
     </a-entity>
